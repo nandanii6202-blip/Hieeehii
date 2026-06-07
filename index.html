@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIVEK.EXE 2.0</title>
+<style>
+body{margin:0;background:#0b0f14;color:#e6edf3;font-family:Arial,sans-serif;overflow-x:hidden}
+.wrap{max-width:1100px;margin:auto;padding:20px}
+.panel{background:#161b22;border:1px solid #30363d;border-radius:18px;padding:20px}
+h1{text-align:center}
+button{background:#21262d;color:#fff;border:1px solid #3d444d;padding:10px 16px;border-radius:10px;margin:5px;cursor:pointer}
+.stat{font-size:1.1rem}
+#msg{min-height:70px;padding:10px}
+#arena{position:relative;height:220px;border:1px solid #30363d;border-radius:12px;overflow:hidden}
+.drop{position:absolute;font-size:28px;cursor:pointer}
+#terminal{background:#000;padding:10px;border-radius:10px;height:150px;overflow:auto;text-align:left}
+.badge{color:#58a6ff}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="panel">
+<h1>⚡ VIVEK.EXE 2.0 ⚡</h1>
+<p class="stat">Level: <span id="lvl">1</span> | XP: <span id="xp">0</span> | Aura: <span id="aura">0</span></p>
+
+<div id="msg">Boot complete. Welcome, Vivek.</div>
+
+<button onclick="roast()">🔥 Roast</button>
+<button onclick="auraCheck()">🗿 Aura Scan</button>
+<button onclick="loot()">🎰 Loot Box</button>
+<button onclick="chaos()">🚨 Chaos</button>
+
+<h2>🎮 Aura Farming Arena</h2>
+<p>Click the floating items before they disappear.</p>
+<div id="arena"></div>
+
+<h2>🤖 Hacker Terminal</h2>
+<div id="terminal"></div>
+
+<h2>🏆 Achievements</h2>
+<div id="ach"></div>
+</div>
+</div>
+
+<script>
+let xp=0,aura=0,level=1;
+const msg=document.getElementById('msg');
+
+function addXP(n){
+ xp+=n;
+ while(xp>=level*100){xp-=level*100;level++;unlock("⬆️ Reached Level "+level);}
+ document.getElementById('xp').textContent=xp;
+ document.getElementById('lvl').textContent=level;
+}
+function addAura(n){
+ aura+=n;
+ document.getElementById('aura').textContent=aura;
+ if(aura>=1000) unlock("🗿 Certified Aura Farmer");
+}
+
+function unlock(t){
+ const a=document.getElementById('ach');
+ if(!a.innerHTML.includes(t)) a.innerHTML += "<div class='badge'>"+t+"</div>";
+}
+
+function roast(){
+ const r=[
+ "Vivek says '5 more minutes' like it's a legally binding contract.",
+ "Bro opens YouTube for one video and returns with a documentary.",
+ "You check the fridge as if new food spawned.",
+ "Your sleep schedule is fan fiction."
+ ];
+ msg.textContent=r[Math.floor(Math.random()*r.length)];
+ addXP(15);
+}
+
+function auraCheck(){
+ const a=[
+ "Aura Level: 999999+",
+ "Main Character Energy detected.",
+ "Rizz output exceeds safe limits.",
+ "System warning: Too much aura."
+ ];
+ msg.textContent=a[Math.floor(Math.random()*a.length)];
+ addXP(10);
+}
+
+function loot(){
+ const items=["Legendary Brain Cell 🧠","Infinite Rizz 💎","Golden Potato 🥔","Rare Meme Scroll 📜"];
+ msg.textContent="Loot Found: "+items[Math.floor(Math.random()*items.length)];
+ addXP(25); addAura(50);
+}
+
+function chaos(){
+ document.body.style.transform="rotate("+(Math.random()*4-2)+"deg)";
+ setTimeout(()=>document.body.style.transform="rotate(0deg)",300);
+ msg.textContent="ERROR 404: Sadness not found.";
+ addXP(20);
+}
+
+const arena=document.getElementById('arena');
+function spawn(){
+ const d=document.createElement('div');
+ d.className='drop';
+ const good=Math.random()>0.25;
+ d.textContent=good?'🗿':'🚩';
+ d.style.left=Math.random()*90+'%';
+ d.style.top=Math.random()*75+'%';
+ d.onclick=()=>{
+   if(good){addAura(25);addXP(20);msg.textContent="Aura collected."; }
+   else{msg.textContent="Red flag dodged."; addXP(5);}
+   d.remove();
+ };
+ arena.appendChild(d);
+ setTimeout(()=>d.remove(),3000);
+}
+setInterval(spawn,900);
+
+const terminal=document.getElementById('terminal');
+const logs=[
+ "[OK] Vivek detected",
+ "[SCAN] Searching for sadness...",
+ "[FAIL] Sadness not found",
+ "[BUFF] Aura increased",
+ "[INFO] Favorite human status confirmed"
+];
+setInterval(()=>{
+ terminal.innerHTML += logs[Math.floor(Math.random()*logs.length)]+"<br>";
+ terminal.scrollTop=terminal.scrollHeight;
+},1500);
+
+setTimeout(()=>{
+ alert("SECRET ENDING UNLOCKED\\n\\nHey Vivek, this entire ridiculous game exists because someone wanted you to smile today. ❤️");
+ unlock("❤️ Secret Ending");
+},60000);
+</script>
+</body>
+</html>
